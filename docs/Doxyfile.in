@@ -1,0 +1,20 @@
+PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
+FULL_PATH_NAMES        = NO
+INPUT                  = @PROJECT_SOURCE_DIR@/README.md \
+                         @PROJECT_SOURCE_DIR@ \
+                         @PROJECT_SOURCE_DIR@/../../common
+FILE_PATTERNS          = *.c \
+                         *.cpp \
+                         *.h \
+                         *.hpp
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = @PROJECT_SOURCE_DIR@/README.md
+EXTRACT_STATIC         = YES
+OUTPUT_DIRECTORY       = doc
+OPTIMIZE_OUTPUT_FOR_C  = YES
+INLINE_SIMPLE_STRUCTS  = YES
+
+SHOW_NAMESPACES        = YES
+CLASS_GRAPH            = NO
+INCLUDE_GRAPH          = NO

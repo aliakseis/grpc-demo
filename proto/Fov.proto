@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+
+package Fov;
+
+
+service EventSubscriber {
+	rpc Subscribe(EventChannel) returns (stream Event) {}
+}
+
+service NotifySubscriber {
+	rpc Subscribe(NotifyChannel) returns (stream Notify) {}
+}
+
+
+message Object {
+    int32 x = 1;
+    int32 y = 2;
+    int32 w = 3;
+    int32 h = 4;
+    float metric = 5;
+    string label = 6;
+    float score = 7;
+    float centroid_x = 8;
+    float centroid_y = 9;
+}
+
+
+message Image {
+    int32 w = 1;
+    int32 h = 2;
+    bytes data = 3;
+}
+
+
+message Event {
+    string fov_id = 1;
+    uint64 sdu_id = 2;
+
+    uint64 timestamp = 3;
+    string coordinate = 4;
+
+    Image image = 5;
+
+    repeated Object objects = 6;
+}
+
+message Notify {
+    string fov_id = 1;
+    uint64 timestamp = 2;
+    int32 frame_x = 3;
+    int32 frame_y = 4;
+    int32 frame_width = 5;
+    int32 frame_height = 6;
+    float metric = 7;
+    uint32 object_width = 8;
+    uint32 object_height = 9;
+    string category = 10;
+    uint64 sdu_id = 11;
+    string coordinate = 12;
+    uint32 status = 13;
+
+    repeated Image images = 14;
+}
+
+message EventChannel {
+	string id = 1;
+}
+
+message NotifyChannel {
+	string id = 1;
+}
