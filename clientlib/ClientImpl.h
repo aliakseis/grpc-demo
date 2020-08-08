@@ -156,7 +156,7 @@ public:
         --parent_->numCalls_;
     }
 
-    void Proceed(bool ok = true)
+    void Proceed(bool ok = true) override
     {
         switch (callStatus)
         {

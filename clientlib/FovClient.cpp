@@ -85,7 +85,7 @@ public:
 
 
 private:
-    void RequestNotification(const std::string& id)
+    void RequestNotification(const std::string& id) override
     {
         new EventClientCall(id, this, callback_, stub_);
     }
@@ -112,7 +112,7 @@ public:
 
 
 private:
-    void RequestNotification(const std::string& id)
+    void RequestNotification(const std::string& id) override
     {
         new NotifyClientCall(id, this, callback_, stub_);
     }
