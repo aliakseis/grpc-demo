@@ -66,9 +66,9 @@ auto AsPlain(const Fov::Notify& src)
 
 // AsyncDownstreamingClientCall
 
-typedef AsyncDownstreamingClientCall<Fov::Event, PublishSubscribeClientCallback, Fov::EventChannel> EventClientCall;
+typedef AsyncDownstreamingClientCall<Fov::Event, PublishSubscribeClientCallback> EventClientCall;
 
-typedef AsyncDownstreamingClientCall<Fov::Notify, NotifyClientCallback, Fov::NotifyChannel> NotifyClientCall;
+typedef AsyncDownstreamingClientCall<Fov::Notify, NotifyClientCallback> NotifyClientCall;
 
 
 class PublishSubscribeClient : public ClientImpl
@@ -83,9 +83,7 @@ public:
     {
     }
 
-
-private:
-    void RequestNotification(const std::string& id) override
+    void RequestNotification(const Fov::EventChannel& id)
     {
         new EventClientCall(id, this, callback_, stub_);
     }
@@ -110,9 +108,7 @@ public:
     {
     }
 
-
-private:
-    void RequestNotification(const std::string& id) override
+    void RequestNotification(const Fov::NotifyChannel& id)
     {
         new NotifyClientCall(id, this, callback_, stub_);
     }
@@ -126,8 +122,6 @@ private:
 };
 
 
-
-
 } // namespace
 
 std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
@@ -135,7 +129,10 @@ std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
 {
     auto result = std::make_unique<PublishSubscribeClient>(targetIpAddress, callback);
 
-    result->RunAsync(id);
+    Fov::EventChannel request;
+    request.set_id(id);
+    result->RequestNotification(request);
+    result->RunAsync();
 
     return result;
 }
@@ -145,7 +142,10 @@ std::unique_ptr<IPublishSubscribeClient> MakeNotifyClient(
 {
     auto result = std::make_unique<NotifyClient>(targetIpAddress, callback);
 
-    result->RunAsync(id);
+    Fov::NotifyChannel request;
+    request.set_id(id);
+    result->RequestNotification(request);
+    result->RunAsync();
 
     return result;
 }

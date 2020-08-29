@@ -57,10 +57,8 @@ public:
 class ClientImpl : public IPublishSubscribeClient
 {
 protected:
-    void AsyncCompleteRpc(const std::string& id)
+    void AsyncCompleteRpc()
     {
-        RequestNotification(id);
-
         void* got_tag;
         bool ok = false;
         while (cq_.Next(&got_tag, &ok))
@@ -80,7 +78,6 @@ protected:
     {
         return AsConnectivityState(channel_->GetState(try_to_connect));
     }
-    virtual void RequestNotification(const std::string& id) = 0;
 
 public:
     ClientImpl(const std::string& targetIpAddress)
@@ -94,9 +91,9 @@ public:
         thread_.join();
     }
 
-    void RunAsync(const std::string& id)
+    void RunAsync()
     {
-        thread_ = std::thread(&ClientImpl::AsyncCompleteRpc, this, id);
+        thread_ = std::thread(&ClientImpl::AsyncCompleteRpc, this);
     }
 
     // The producer-consumer queue we use to communicate asynchronously with the
@@ -118,7 +115,7 @@ public:
 // https://habr.com/ru/post/340758/
 // https://github.com/Mityuha/grpc_async/blob/master/grpc_async_client.cc
 
-template<typename E, typename C, typename R>
+template<typename E, typename C>
 class AsyncDownstreamingClientCall : public ClientCallBase
 {
     grpc::ClientContext context;
@@ -132,9 +129,9 @@ class AsyncDownstreamingClientCall : public ClientCallBase
     C& callback_;
 
 public:
-    template<typename T>
+    template<typename R, typename T>
     AsyncDownstreamingClientCall(
-        const std::string& id, 
+        const R& request,
         ClientImpl* parent,
         C& callback,
         T& stub
@@ -142,9 +139,6 @@ public:
     : parent_(parent)
     , callback_(callback)
     {
-        R request;
-        request.set_id(id);
-
         ++parent_->numCalls_;
         responder = stub->AsyncSubscribe(&context, request, &parent_->cq_, this);
         parent_->terminator_.connect(MakeDelegate<&grpc::ClientContext::TryCancel>(&context));
