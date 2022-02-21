@@ -22,7 +22,7 @@ using NotifyClientCallback = std::function<void(const PlainFoiNotify &)>;
  * \return
  */
 std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
-    const std::string& targetIpAddress, const std::string& id, PublishSubscribeClientCallback callback);
+    const std::string& targetIpAddress, const std::string& id, const PublishSubscribeClientCallback& callback);
 
 /*!
  * \brief MakeNotifyClient
@@ -32,4 +32,4 @@ std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
  * \return
  */
 std::unique_ptr<IPublishSubscribeClient> MakeNotifyClient(
-    const std::string& targetIpAddress, const std::string& id, NotifyClientCallback callback);
+    const std::string& targetIpAddress, const std::string& id, const NotifyClientCallback& callback);

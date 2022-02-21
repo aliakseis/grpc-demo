@@ -8,13 +8,13 @@
 
 #include <grpc/support/log.h>
 
-#include <signal.h>
+#include <csignal>
 
 #include <iostream>
 
 namespace {
 
-static std::unique_ptr<IPublishSubscribeClient> client;
+std::unique_ptr<IPublishSubscribeClient> client;
 
 void signalHandler(int signo)
 {
@@ -37,7 +37,7 @@ void setSignalHandler()
 #endif
 }
 
-static void test_callback(gpr_log_func_args* args) {
+void test_callback(gpr_log_func_args* args) {
     std::cout << "File: \"" << args->file
         << "\" line: " << args->line
         << " severity: " << args->severity

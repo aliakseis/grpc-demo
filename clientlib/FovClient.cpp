@@ -66,9 +66,9 @@ auto AsPlain(const Fov::Notify& src)
 
 // AsyncDownstreamingClientCall
 
-typedef AsyncDownstreamingClientCall<Fov::Event, PublishSubscribeClientCallback> EventClientCall;
+using EventClientCall = AsyncDownstreamingClientCall<Fov::Event, PublishSubscribeClientCallback>;
 
-typedef AsyncDownstreamingClientCall<Fov::Notify, NotifyClientCallback> NotifyClientCall;
+using NotifyClientCall = AsyncDownstreamingClientCall<Fov::Notify, NotifyClientCallback>;
 
 
 class PublishSubscribeClient : public ClientImpl
@@ -125,7 +125,7 @@ private:
 } // namespace
 
 std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
-    const std::string& targetIpAddress, const std::string& id, PublishSubscribeClientCallback callback)
+    const std::string& targetIpAddress, const std::string& id, const PublishSubscribeClientCallback& callback)
 {
     auto result = std::make_unique<PublishSubscribeClient>(targetIpAddress, callback);
 
@@ -138,7 +138,7 @@ std::unique_ptr<IPublishSubscribeClient> MakePublishSubscribeClient(
 }
 
 std::unique_ptr<IPublishSubscribeClient> MakeNotifyClient(
-    const std::string& targetIpAddress, const std::string& id, NotifyClientCallback callback)
+    const std::string& targetIpAddress, const std::string& id, const NotifyClientCallback& callback)
 {
     auto result = std::make_unique<NotifyClient>(targetIpAddress, callback);
 
