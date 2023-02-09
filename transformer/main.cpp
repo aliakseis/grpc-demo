@@ -14,9 +14,9 @@
 #include <atomic>
 #include <iostream>
 
+namespace {
 
-
-static std::unique_ptr<IPublishSubscribeClient> client;
+std::unique_ptr<IPublishSubscribeClient> client;
 
 std::atomic_bool shutdownRequested(false);
 
@@ -43,11 +43,6 @@ void setSignalHandler()
 }
 
 
-inline size_t GetSize(const PlainFoiEvent& obj)
-{
-    return obj.image->data.size();
-}
-
 bool initCategory(PlainFoiObject & object, PlainFoiNotify &notification)
 {
     if (object.score >= 0.01)
@@ -62,6 +57,14 @@ bool initCategory(PlainFoiObject & object, PlainFoiNotify &notification)
     }
 
     return true;
+}
+
+} // namespace
+
+
+inline size_t GetSize(const PlainFoiEvent& obj)
+{
+    return obj.image->data.size();
 }
 
 

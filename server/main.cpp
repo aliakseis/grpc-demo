@@ -51,7 +51,6 @@ void setSignalHandler()
 }
 
 
-
 std::pair<PlainFoiEvent, bool> GetStuff(const std::string& fname)
 {
     using namespace std::chrono;
@@ -60,7 +59,6 @@ std::pair<PlainFoiEvent, bool> GetStuff(const std::string& fname)
     if (frame.empty()) {
         return {};
     }
-
 
     PlainFoiEvent notification;
 
@@ -82,7 +80,6 @@ std::pair<PlainFoiEvent, bool> GetStuff(const std::string& fname)
 
     notification.image = image;
 
-
     notification.objects.push_back({ 
         0,
         0,
@@ -92,8 +89,6 @@ std::pair<PlainFoiEvent, bool> GetStuff(const std::string& fname)
         static_cast<float>(frame.cols / 2),
         static_cast<float>(frame.rows / 2)
         });
-
-
 
     return { std::move(notification), true };
 }

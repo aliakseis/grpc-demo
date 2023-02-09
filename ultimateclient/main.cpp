@@ -11,7 +11,9 @@
 #include <iostream>
 #include <numeric>
 
-static std::unique_ptr<IPublishSubscribeClient> client;
+namespace {
+
+std::unique_ptr<IPublishSubscribeClient> client;
 
 void signalHandler(int signo)
 {
@@ -35,6 +37,8 @@ void setSignalHandler()
 }
 
 const char windowName[] = "FOV";
+
+} // namespace
 
 inline size_t GetSize(const PlainFoiNotify& obj)
 {
