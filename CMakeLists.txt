@@ -71,7 +71,8 @@ add_library(FovServerLib STATIC
 target_include_directories(FovServerLib PRIVATE ./serverlib ./common)
 target_link_libraries(FovServerLib
                       ${GRPC_CPP_LIB}
-                      ${Protobuf_LIBRARIES})
+#                      ${Protobuf_LIBRARIES}
+)
 
 add_library(FovClientLib STATIC
                clientlib/FovClient.cpp
@@ -80,7 +81,8 @@ add_library(FovClientLib STATIC
 target_include_directories(FovClientLib PRIVATE ./clientlib ./common)
 target_link_libraries(FovClientLib
                       ${GRPC_CPP_LIB}
-                      ${Protobuf_LIBRARIES})
+#                      ${Protobuf_LIBRARIES}
+)
 
 
 

@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <iostream>
 
 
 namespace {
@@ -62,7 +63,7 @@ std::pair<PlainFoiEvent, bool> GetStuff(const std::string& fname)
 
     PlainFoiEvent notification;
 
-    const auto hash = std::hash_value(fname);
+    const auto hash = std::hash<std::string>{}(fname);
     const auto angle = hash % 91;
     const auto distance = hash % 37;
     const auto coord = std::to_string(angle) + ';' + std::to_string(distance);
